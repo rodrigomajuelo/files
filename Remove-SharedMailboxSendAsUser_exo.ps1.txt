@@ -1,0 +1,64 @@
+<#
+	.SCRIPT
+	    Remove-SharedMailboxSendAsUser_exo.ps1
+
+	.AUTHOR
+	    Workato Customer Success
+
+	.CHANGELOG
+	    2021-04-14 - Created
+
+	.DESCRIPTION
+        This script uses EXO v2 to connect to Exchange Online
+
+	.PARAMETERS
+	    mailbox_name - Name or alias of the mailbox
+        user_name - UPN of the user to have SendAs access removed
+
+    .USAGE
+
+    .Config YAML entry
+        remove_shared_mailbox_send_as_user_exo:
+            name: Remove Send As User from Shared Mailbox (EXO)
+            command:
+              - powershell
+              - Start-Process powershell -verb runas -ArgumentList '-noexit -command \"C:\\Workato\\scripts\\exchange\\exo\\Remove-SharedMailboxSendAsUser_exo.ps1 -mailbox_name {{mailbox_name}} -user_name {{user_name}}\"'
+            parameters:
+              - { name: mailbox_name }
+              - { name: user_name }
+
+  #>
+
+
+param(
+     [Parameter()]
+     [string]$mailbox_name,
+
+     [Parameter()]
+     [string]$user_name
+
+ )
+
+
+<# Uncomment this block to hard code expected values and test, make sure to comment the param block
+$mailbox_name = "identity_access_management@brookfield.com" 
+$user_name = "dgauvin"
+
+#>
+$userPrincipalName = "sa_workato-integration-dev@brookfield.com" 
+    
+Connect-ExchangeOnline -UserPrincipalName $userPrincipalName
+
+try {
+     
+    Remove-RecipientPermission -Identity $mailbox_name -Trustee $user_name -AccessRights SendAs -Confirm:$false
+
+}
+
+catch {
+
+    "Error: $($Error[0])"
+
+}
+
+Disconnect-ExchangeOnline

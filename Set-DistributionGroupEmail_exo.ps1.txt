@@ -1,0 +1,60 @@
+<#
+
+    .Script
+        Set-DistributionGroupEmail_exo.ps1
+
+    .Author
+        Workato Customer Success
+
+    .Description
+        
+
+    .Pre-requisites
+        Cookies should be allowed
+        OPA authenticated user should have access to Exchange Online servers
+
+    .Config YAML sample
+      set_dl_email_exo:
+        name: Set Distribution List Email Address
+        command:
+          - powershell
+          - "C:\\Workato\\scripts\\exchange\\exo\\Set-DistributionGroupEmail_exo.ps1 -dl_name {{dl_name}} -email {{email}}"
+        parameters:
+          - { name: dl_name, quote: "'" }
+          - { name: email, quote: "'" }
+
+ #>
+
+param(
+     [Parameter()]
+     [string]$dl_name,
+
+     [Parameter()]
+     [string]$email
+
+ )
+
+
+
+<# Uncomment this block to hard code expected values and test, make sure to comment the param block
+$dl_name = "DL BCO Team: Toronto - Identity and Access Analysts" 
+$email = "test2_workato@brookfield.com"
+
+#>
+
+$userPrincipalName = "sa_workato-integration-dev@brookfield.com" # This is the UPN of the account that will be used to connect to Exchange Online
+	
+Connect-ExchangeOnline -UserPrincipalName $userPrincipalName # This will open up an OAuth window to microsoftonline.com, additional parameters may be required depending on setup
+
+try {
+
+	Set-DistributionGroup $dl_name -emailaddresses @{Add=$email}
+
+}
+
+catch {
+
+	"Error: $($Error[0])"
+}
+
+Disconnect-ExchangeOnline
