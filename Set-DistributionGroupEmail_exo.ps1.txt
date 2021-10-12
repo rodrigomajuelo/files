@@ -38,11 +38,11 @@ param(
 
 <# Uncomment this block to hard code expected values and test, make sure to comment the param block
 $dl_name = "DL BCO Team: Toronto - Identity and Access Analysts" 
-$email = "test2_workato@brookfield.com"
+$email = ""
 
 #>
 
-$userPrincipalName = "sa_workato-integration-dev@brookfield.com" # This is the UPN of the account that will be used to connect to Exchange Online
+$userPrincipalName = "" # This is the UPN of the account that will be used to connect to Exchange Online
 	
 Connect-ExchangeOnline -UserPrincipalName $userPrincipalName # This will open up an OAuth window to microsoftonline.com, additional parameters may be required depending on setup
 
