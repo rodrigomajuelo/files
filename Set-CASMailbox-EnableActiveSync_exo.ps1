@@ -36,7 +36,7 @@ param(
 
 
 <# Uncomment this block to hard code expected values and test, make sure to comment the param block
-$mailbox_name = "identity_access_management@brookfield.com" 
+$mailbox_name = "" 
 
 #>
 $userPrincipalName = "" 
