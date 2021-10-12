@@ -39,7 +39,7 @@ param(
 $mailbox_name = "identity_access_management@brookfield.com" 
 
 #>
-$userPrincipalName = "sa_workato-integration-dev@brookfield.com" 
+$userPrincipalName = "" 
     
 Connect-ExchangeOnline -UserPrincipalName $userPrincipalName
 
